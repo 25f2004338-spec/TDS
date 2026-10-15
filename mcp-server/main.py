@@ -213,13 +213,15 @@ def answer_question(question):
                 key = max(groups, key=groups.get)
                 return f"{key} with {money(groups[key])} in matching orders."
 
-        if "product" in q or "which item" in q:
-            groups = defaultdict(float)
-            for o in selected:
-                groups[o["product"]] += amount_usd(o)
-            if groups:
-                key = max(groups, key=groups.get)
-                return f"{key} with {money(groups[key])} in matching orders."
+        
+            if "product" in q or "which item" in q:
+                groups = defaultdict(float)
+                for o in selected:
+                    groups[o["product"]] += amount_usd(o)
+                if groups:
+                    key = max(groups, key=groups.get)
+                    return key
+
 
     # Revenue/refund amounts
     if any(word in q for word in ["revenue", "sales", "earnings", "refund amount", "total refunds"]):
