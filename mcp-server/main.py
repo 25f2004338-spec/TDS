@@ -20,6 +20,13 @@ TOOLS = [
     }
 ]
 
+@app.get("/mcp")
+async def mcp_health():
+    return {
+        "status": "ok",
+        "endpoint": "/mcp"
+    }
+
 
 @app.post("/mcp")
 async def mcp_endpoint(request: Request):
