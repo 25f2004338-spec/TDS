@@ -191,6 +191,25 @@ def answer_question(question):
             if groups:
                 return max(groups, key=groups.get)
 
+    # Average order-value questions must be handled before generic order counts.
+    # Example: "On average, how many US dollars is a paid West order worth?"
+    asks_average_order_value = (
+        ("average" in q or "on average" in q)
+        and any(word in q for word in ("order", "orders"))
+        and any(word in q for word in ("worth", "value", "amount", "cost", "dollar", "usd", "price"))
+    ) or any(phrase in q for phrase in (
+        "average order value",
+        "average order amount",
+        "average order size",
+        "average order worth",
+        "mean order value",
+        "mean order amount",
+        "mean order worth",
+        "per order on average",
+    ))
+    if asks_average_order_value:
+        return money(sum(amount_usd(order) for order in selected) / len(selected))
+
     # Revenue and refund totals are expressed in USD.
     if any(word in q for word in ("revenue", "sales", "earnings", "refund amount", "total refunds")):
         return money(sum(amount_usd(order) for order in selected))
@@ -198,9 +217,6 @@ def answer_question(question):
     # Unit/quantity questions sum quantities, not number of order rows.
     if "unit" in q or "quantity" in q:
         return str(sum(int(order["qty"]) for order in selected))
-
-    if "average order value" in q or "average order amount" in q or "average order size" in q:
-        return money(sum(amount_usd(order) for order in selected) / len(selected))
 
     # Ordinary order count. ORDERS already contains one current row per order ID.
     if any(word in q for word in ("how many", "count", "number of", "orders", "order count")):
