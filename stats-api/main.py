@@ -11,7 +11,7 @@ EMAIL = "YOUR_IITM_EMAIL"
 
 app = FastAPI()
 
-ALLOWED_ORIGIN = "https://dash-q9rngna.example.com"
+ALLOWED_ORIGIN = "https://dash-q9rnga.example.com"
 
 app.add_middleware(
     CORSMiddleware,
