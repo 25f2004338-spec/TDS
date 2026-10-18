@@ -7,10 +7,11 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 
-ALLOWED_ORIGIN = "https://dash-q9rngna.example.com"
 EMAIL = "YOUR_IITM_EMAIL"
 
 app = FastAPI()
+
+ALLOWED_ORIGIN = "https://dash-q9rngna.example.com"
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,7 +19,7 @@ app.add_middleware(
     allow_credentials=False,
     allow_methods=["GET"],
     allow_headers=["*"],
-    expose_headers=["X-Request-ID", "X-Process-Time"]
+    expose_headers=["X-Request-ID", "X-Process-Time"],
 )
 
 @app.middleware("http")
