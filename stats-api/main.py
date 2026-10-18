@@ -18,7 +18,7 @@ app.add_middleware(
     allow_credentials=False,
     allow_methods=["GET"],
     allow_headers=["*"],
-    expose_headers=["*"]
+    expose_headers=["X-Request-ID", "X-Process-Time"]
 )
 
 @app.middleware("http")
